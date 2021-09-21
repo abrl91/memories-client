@@ -7,11 +7,21 @@ import Icon from "./Icon";
 import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {useHistory} from "react-router-dom";
+import {signin, signup} from "../../actions/auth";
+
+const initialFormState = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+}
 
 const Auth = () => {
     const classes = useStyles();
     const [showPassword, setShowPassword] = useState(false);
     const [isSignup, setIsSignup] = useState(false);
+    const [formData, setFormData] = useState(initialFormState);
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -20,9 +30,21 @@ const Auth = () => {
         setShowPassword(false);
     }
 
-    const submitHandler = () => {}
+    const submitHandler = (e) => {
+        e.preventDefault();
 
-    const inputChangeHandler = () => {}
+        if (isSignup) {
+            dispatch(signin(formData, history))
+        }
+
+        if (!isSignup) {
+            dispatch(signup(formData, history))
+        }
+    }
+
+    const inputChangeHandler = (e) => {
+        setFormData({...formData, [e.target.name]: e.target.value});
+    }
 
     const showPasswordHandler = () => {
         setShowPassword((prevShowPassword) => !prevShowPassword);
