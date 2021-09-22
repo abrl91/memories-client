@@ -1,9 +1,11 @@
 import {ACTIONS_CONSTANTS} from "../constants/actionTypes";
-const {FETCH_ALL, CREATE, UPDATE, DELETE, LIKE} = ACTIONS_CONSTANTS;
+const {FETCH_ALL, CREATE, UPDATE, DELETE, LIKE, FETCH_BY_SEARCH} = ACTIONS_CONSTANTS;
 // state === posts
 const postsReducer = (posts = [], action) => {
     switch (action.type) {
         case FETCH_ALL:
+            return action.payload;
+        case FETCH_BY_SEARCH:
             return action.payload;
         case CREATE:
             return [...posts, action.payload];

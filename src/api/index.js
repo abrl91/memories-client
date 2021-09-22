@@ -23,3 +23,7 @@ export const signin = (formData) => API.post('/user/signin', formData);
 
 export const signup = (formData) => API.post('/user/signup', formData);
 
+export const fetchPostsBySearch = (searchQuery) => API.get(
+    `/posts/search?searchQuery=${searchQuery.search || 'none'}`
+);
+

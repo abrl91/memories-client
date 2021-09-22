@@ -1,6 +1,6 @@
 import * as api from '../api';
 import {ACTIONS_CONSTANTS} from "../constants/actionTypes";
-const {FETCH_ALL, CREATE, UPDATE, DELETE, LIKE} = ACTIONS_CONSTANTS;
+const {FETCH_ALL, CREATE, UPDATE, DELETE, LIKE, FETCH_BY_SEARCH} = ACTIONS_CONSTANTS;
 // Actions creators - functions that return an action which is an object that have type and payload properties
 
 export const getPosts = () => async (dispatch) => {
@@ -10,6 +10,17 @@ export const getPosts = () => async (dispatch) => {
 
     } catch (err) {
         console.log(err, '***error from get posts actions');
+    }
+}
+
+
+export const getPostsBySearch = (searchQuery) => async (dispatch) => {
+    try {
+        const { data: { data } } = await api.fetchPostsBySearch(searchQuery);
+        dispatch({ type: FETCH_BY_SEARCH, payload: data });
+        console.log(data, 'data from search posts action');
+    } catch (err) {
+        console.log(err, 'error from get posts by search action');
     }
 }
 

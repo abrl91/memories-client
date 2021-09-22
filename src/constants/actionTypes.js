@@ -3,6 +3,7 @@ export const ACTIONS_CONSTANTS = {
     UPDATE: 'UPDATE',
     DELETE: 'DELETE',
     FETCH_ALL: 'FETCH_ALL',
+    FETCH_BY_SEARCH: 'FETCH_BY_SEARCH',
     LIKE: 'LIKE',
     AUTH: 'AUTH',
     LOGOUT: 'LOGOUT',

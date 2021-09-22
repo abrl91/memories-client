@@ -1,6 +1,5 @@
 import useStyles from './styles';
 import { Card, CardActions, CardContent, CardMedia, Button, Typography } from "@material-ui/core";
-import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
@@ -10,7 +9,7 @@ import Likes from "./Likes";
 
 const Post = ({ post, setCurrentId }) => {
     const classes = useStyles();
-    const { _id, name, title, message, tags, selectedFile, createdAt, likeCount } = post;
+    const { _id, name, title, message, tags, selectedFile, createdAt } = post;
     const dispatch = useDispatch();
     const user = JSON.parse(localStorage.getItem('profile'));
 
@@ -22,7 +21,7 @@ const Post = ({ post, setCurrentId }) => {
         dispatch(likePost(_id));
     }
 
-    return <Card className={classes.card}>
+    return <Card className={classes.card} raised elevation={6}>
         <CardMedia className={classes.media} image={selectedFile} title={title}/>
         <div className={classes.overlay}>
             <Typography variant="h6">{name}</Typography>
