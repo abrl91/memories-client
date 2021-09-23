@@ -1,34 +1,60 @@
 import * as api from '../api';
 import {ACTIONS_CONSTANTS} from "../constants/actionTypes";
-const {FETCH_ALL, CREATE, UPDATE, DELETE, LIKE, FETCH_BY_SEARCH} = ACTIONS_CONSTANTS;
+const {
+    FETCH_ALL,
+    FETCH_BY_SEARCH,
+    CREATE,
+    UPDATE,
+    DELETE,
+    LIKE,
+    START_LOADING,
+    END_LOADING,
+    FETCH_POST,
+} = ACTIONS_CONSTANTS;
+
 // Actions creators - functions that return an action which is an object that have type and payload properties
 
-export const getPosts = () => async (dispatch) => {
+export const getPosts = (page) => async (dispatch) => {
     try {
-        const { data } = await api.fetchPosts();
+        dispatch({type: START_LOADING});
+        const { data } = await api.fetchPosts(page);
+        console.log(data)
         dispatch({ type: FETCH_ALL, payload: data });
-
+        dispatch({type: END_LOADING});
     } catch (err) {
         console.log(err, '***error from get posts actions');
     }
 }
 
-
 export const getPostsBySearch = (searchQuery) => async (dispatch) => {
     try {
+        dispatch({type: START_LOADING});
         const { data: { data } } = await api.fetchPostsBySearch(searchQuery);
         dispatch({ type: FETCH_BY_SEARCH, payload: data });
-        console.log(data, 'data from search posts action');
+        dispatch({type: END_LOADING});
     } catch (err) {
         console.log(err, 'error from get posts by search action');
     }
 }
 
-export const createPost = (post) => async (dispatch) => {
+export const getPost = (id) => async (dispatch) => {
     try {
-        const { data } = await api.createPost(post);
-        dispatch({type: CREATE, payload: data });
+        dispatch({type: START_LOADING});
+        const { data } = await api.getPost(id);
+        dispatch({ type: FETCH_POST, payload: data });
+        dispatch({type: END_LOADING});
+    } catch (err) {
+        console.log(err, 'error from get single post action');
+    }
+}
 
+export const createPost = (post, history) => async (dispatch) => {
+    try {
+        dispatch({type: START_LOADING});
+        const { data } = await api.createPost(post);
+        history.push(`/posts/${data._id}`);
+        dispatch({type: CREATE, payload: data });
+        dispatch({type: END_LOADING});
     } catch (err) {
         console.log(err, 'error from create post action');
     }

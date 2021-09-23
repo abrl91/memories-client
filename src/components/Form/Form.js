@@ -4,6 +4,7 @@ import { TextField, Button, Typography, Paper } from '@material-ui/core';
 import FileBase64 from "react-file-base64";
 import useStyles from './styles';
 import {createPost, updatePost} from "../../actions/posts";
+import {useHistory} from "react-router-dom";
 
 const Form = ({ currentId, setCurrentId }) => {
     const classes = useStyles();
@@ -15,8 +16,9 @@ const Form = ({ currentId, setCurrentId }) => {
         selectedFile: '',
     }
     const [postData, setPostData] = useState(initialPostState);
-    const post = useSelector(state => currentId ? state.posts.find(p => p._id === currentId) : null);
+    const post = useSelector(state => currentId ? state.posts.posts.find(p => p._id === currentId) : null);
     const user = JSON.parse(localStorage.getItem('profile'));
+    const history = useHistory();
 
     useEffect(() => {
         if (post) setPostData(post);
@@ -29,7 +31,7 @@ const Form = ({ currentId, setCurrentId }) => {
         if (currentId) {
             dispatch(updatePost(currentId, {...postData, name: user?.result?.name }));
         } else {
-            dispatch(createPost({...postData, name: user?.result?.name }));
+            dispatch(createPost({...postData, name: user?.result?.name }, history));
         }
 
         clearFormHandler();
@@ -50,7 +52,7 @@ const Form = ({ currentId, setCurrentId }) => {
         setCurrentId(null);
     }
 
-    return <Paper className={classes.paper}>
+    return <Paper className={classes.paper} elevation={6}>
         <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handlerSubmit}>
             <Typography variant="h6">{currentId ? 'Editing a Memory' : 'Creating a Memory'}</Typography>
             <TextField
@@ -64,8 +66,10 @@ const Form = ({ currentId, setCurrentId }) => {
             <TextField
                 name="message"
                 variant="outlined"
-                label="Post Message"
+                label="Message"
                 fullWidth
+                multiline
+                rows={4}
                 value={postData.message}
                 onChange={(e) => setPostData({...postData, message: e.target.value})}
             />

@@ -6,11 +6,12 @@ import { Grid, CircularProgress } from "@material-ui/core";
 
 const Posts = ({ setCurrentId  }) => {
     const classes = useStyles();
-    const posts = useSelector(state => state.posts);
+    const { posts, isLoading } = useSelector(state => state.posts);
+
+    if (!posts.length && !isLoading) return <p>No Posts</p>
+    if (isLoading) return <CircularProgress />
 
     return <Fragment>
-        {!posts.length && <CircularProgress />}
-        {posts.length && (
             <Grid className={classes.mainContainer} container alignItems="stretch" spacing={3}>
                 {posts.map(post => (
                     <Grid item key={post._id} xs={12} sm={12} md={2} lg={4}>
@@ -18,7 +19,6 @@ const Posts = ({ setCurrentId  }) => {
                     </Grid>
                 ))}
             </Grid>
-        )}
     </Fragment>
 }
 

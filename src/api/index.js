@@ -9,7 +9,13 @@ API.interceptors.request.use((req) => {
    return req;
 });
 
-export const fetchPosts = () => API.get('/posts');
+export const fetchPosts = (page) => API.get(`/posts?page=${page}`);
+
+export const fetchPostsBySearch = (searchQuery) => API.get(
+    `/posts/search?searchQuery=${searchQuery.search || 'none'}`
+);
+
+export const getPost = (id) => API.get(`/posts/${id}`);
 
 export const createPost = (newPostData) => API.post('/posts', newPostData);
 
@@ -23,7 +29,5 @@ export const signin = (formData) => API.post('/user/signin', formData);
 
 export const signup = (formData) => API.post('/user/signup', formData);
 
-export const fetchPostsBySearch = (searchQuery) => API.get(
-    `/posts/search?searchQuery=${searchQuery.search || 'none'}`
-);
+
 
