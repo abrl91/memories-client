@@ -6,6 +6,7 @@ export const ACTIONS_CONSTANTS = {
     UPDATE: 'UPDATE',
     DELETE: 'DELETE',
     LIKE: 'LIKE',
+    COMMENT_POST: 'COMMENT_POST',
 
     AUTH: 'AUTH',
     LOGOUT: 'LOGOUT',

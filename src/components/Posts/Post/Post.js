@@ -28,7 +28,7 @@ const Post = ({ post, setCurrentId }) => {
     }
 
     return <Card className={classes.card} raised elevation={6}>
-        {/*<ButtonBase className={classes.cardActions} onClick={openPostHandler}>*/}
+        <ButtonBase  className={classes.cardAction} onClick={openPostHandler}>
             <CardMedia className={classes.media} image={selectedFile} title={title}/>
             <div className={classes.overlay}>
                 <Typography variant="h6">{name}</Typography>
@@ -36,7 +36,10 @@ const Post = ({ post, setCurrentId }) => {
             </div>
             <div className={classes.overlay2}>
                 {((user?.result?.googleId === post?.creator) || (user?.result?._id === post?.creator)) && (
-                <Button style={{color: 'white'}} size="small" onClick={() => setCurrentId(_id)}>
+                <Button style={{color: 'white'}} size="small" onClick={(e) => {
+                    e.stopPropagation();
+                    setCurrentId(_id)
+                }}>
                     <MoreHorizIcon fontSize="medium" />
                 </Button>
                 )}
@@ -48,7 +51,7 @@ const Post = ({ post, setCurrentId }) => {
             <CardContent>
                 <Typography  variant="body2" color="textSecondary" component="p">{message}</Typography>
             </CardContent>
-       {/* </ButtonBase>*/}
+        </ButtonBase>
         <CardActions className={classes.cardActions}>
             <Button size="small" color="primary" onClick={likePostHandler} disabled={!user?.result}>
                <Likes post={post}/>

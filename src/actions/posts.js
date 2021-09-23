@@ -10,6 +10,7 @@ const {
     START_LOADING,
     END_LOADING,
     FETCH_POST,
+    COMMENT_POST
 } = ACTIONS_CONSTANTS;
 
 // Actions creators - functions that return an action which is an object that have type and payload properties
@@ -86,5 +87,16 @@ export const likePost = (postId) => async (dispatch) => {
         dispatch({type: LIKE, payload: data});
     } catch (err) {
         console.log(err, 'error form like post action');
+    }
+}
+
+export const commentPost = (comment, postId) => async (dispatch) => {
+    try {
+        const { data } = await api.comment(comment, postId);
+        dispatch({type: COMMENT_POST, payload: data});
+        return data.comments;
+
+    } catch (err) {
+        console.log(err, 'error form comment post action');
     }
 }

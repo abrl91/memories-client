@@ -9,6 +9,7 @@ const {
     FETCH_BY_SEARCH,
     START_LOADING,
     END_LOADING,
+    COMMENT_POST
 } = ACTIONS_CONSTANTS;
 
 const postsReducer = (
@@ -71,6 +72,17 @@ const postsReducer = (
                 ...state,
                 posts: state.posts.filter(post => post._id !== action.payload),
             };
+
+        case COMMENT_POST:
+            return {
+                ...state,
+                posts: state.posts.map(post => {
+                    if (post._id === action.payload._id) {
+                        return action.payload;
+                    }
+                    return post;
+                }),
+            }
 
         default:
             return state;
